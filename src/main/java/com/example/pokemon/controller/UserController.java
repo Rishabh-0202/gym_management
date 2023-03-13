@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@PreAuthorize("hasAuthority('ADMIN')")
 public class UserController {
 
     private UserService userService;
@@ -29,12 +28,13 @@ public class UserController {
 
 
     @GetMapping("/api/v1/getAllUsers")
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public List<User> getListOfUsers(){
         return userRepository.findAll();
     }
 
     @RequestMapping("/api/v1/wantMembership/{username}")
+    @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<String> wantMembership(@PathVariable String username){
         User user;
         user = userRepository.findUserByUsername(username);
